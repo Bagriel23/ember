@@ -1,0 +1,599 @@
+/* ============================================================
+   Ember — bladesinger de Valebris
+   Paleta tirada das ilustrações do personagem.
+   ============================================================ */
+
+:root {
+  --ink:      #0E1020;  /* índigo profundo — sombra do manto */
+  --ink-deep: #06070F;
+  --navy:     #1E2547;  /* meio-tom do manto */
+  --ember:    #E8561C;  /* o cabelo */
+  --gold:     #C08A2E;  /* a estrela de oito pontas */
+  --bone:     #EFE6DA;  /* a gola de pele */
+  --cadmium:  #FFC300;  /* o amarelo da ilustração */
+  --ice:      #86B3D9;  /* os olhos */
+
+  --bone-dim: color-mix(in srgb, var(--bone) 62%, var(--ink));
+
+  --display: "Bodoni Moda", "Didot", Georgia, serif;
+  --text:    "Newsreader", Georgia, "Times New Roman", serif;
+
+  /* escala fluida */
+  --t-xs:  clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem);
+  --t-sm:  clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+  --t-b:   clamp(1.06rem, 1rem + 0.36vw, 1.28rem);
+  --t-lead:clamp(1.35rem, 1.15rem + 0.95vw, 2.1rem);
+  --t-mid: clamp(2rem, 1.3rem + 3.1vw, 4.2rem);
+  --t-big: clamp(2.8rem, 1.4rem + 6.2vw, 7.5rem);
+  --t-mega:clamp(4.5rem, 1rem + 17vw, 17rem);
+
+  --gut:  clamp(1.25rem, 4vw, 5rem);
+  --band: clamp(6rem, 14vh, 11rem);   /* respiro vertical entre capítulos */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--text);
+  font-size: var(--t-b);
+  font-weight: 350;
+  line-height: 1.68;
+  font-optical-sizing: auto;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+b, strong { font-weight: 500; }
+.defs { position: absolute; width: 0; height: 0; }
+
+::selection { background: var(--ember); color: var(--ink); }
+
+:focus-visible {
+  outline: 2px solid var(--cadmium);
+  outline-offset: 3px;
+}
+
+/* medida de leitura: nunca passa de ~62 caracteres */
+.measure {
+  max-width: 34rem;
+  margin-inline: 0;
+  padding-inline: var(--gut);
+}
+/* variações de posição: dão ritmo em telas largas em vez de um trilho só */
+.measure--mid   { margin-left: clamp(0rem, 22vw, 26rem); }
+.measure--right { margin-left: auto; margin-right: clamp(0rem, 8vw, 9rem); }
+.measure > p + p { margin-top: 1.15em; }
+
+.lead {
+  font-size: var(--t-lead);
+  line-height: 1.34;
+  font-weight: 300;
+  letter-spacing: -0.012em;
+  color: var(--bone);
+}
+
+/* palavras que queimam */
+.burn { color: var(--ember); font-weight: 500; font-style: italic; }
+.gilt { color: var(--gold); font-weight: 500; }
+
+/* ---------- camadas fixas ---------------------------------- */
+
+.embers {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 3;
+  overflow: hidden;
+  opacity: 0;
+}
+.ember-bit {
+  position: absolute;
+  bottom: -6vh;
+  left: var(--x);
+  width: var(--sz); height: var(--sz);
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 calc(var(--sz) * 3.4) calc(var(--sz) * 0.8) rgb(232 86 28 / 0.55);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: rise var(--dur) linear var(--delay) infinite;
+}
+@keyframes rise {
+  0%   { transform: translate3d(0,0,0) scale(0.4); opacity: 0; }
+  8%   { opacity: 0.9; }
+  70%  { opacity: 0.55; }
+  100% { transform: translate3d(var(--drift), -112vh, 0) scale(1.15); opacity: 0; }
+}
+
+.veil {
+  position: fixed; inset: 0;
+  background: #000;
+  pointer-events: none; z-index: 4;
+  opacity: 0;
+}
+
+/* ---------- 1 · hero --------------------------------------- */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: center;
+  padding: clamp(4rem, 12vh, 9rem) 0 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero__glow {
+  position: absolute;
+  z-index: -2;
+  inset: auto -20% -30% -20%;
+  height: 90%;
+  background:
+    radial-gradient(60% 55% at 62% 78%, rgb(232 86 28 / 0.30), transparent 68%),
+    radial-gradient(52% 48% at 22% 92%, rgb(192 138 46 / 0.18), transparent 70%);
+  filter: blur(18px);
+}
+
+.hero__portrait {
+  position: absolute;
+  z-index: -1;
+  right: -4%;
+  bottom: 0;
+  width: clamp(20rem, 52vw, 44rem);
+  margin: 0;
+  /* dissolve nas três bordas soltas; só a direita sangra pra fora */
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent, #000 22%, #000 60%, transparent 97%),
+    linear-gradient(to right, transparent, #000 34%);
+  -webkit-mask-composite: source-in;
+          mask-image:
+    linear-gradient(to bottom, transparent, #000 22%, #000 60%, transparent 97%),
+    linear-gradient(to right, transparent, #000 34%);
+          mask-composite: intersect;
+}
+.hero__portrait img {
+  width: 100%;
+  filter: saturate(1.04) contrast(1.03);
+}
+
+.hero__type {
+  padding-inline: var(--gut);
+  align-self: end;
+  padding-bottom: clamp(5rem, 16vh, 11rem);
+}
+
+.hero__name {
+  font-family: var(--display);
+  font-size: var(--t-mega);
+  font-weight: 500;
+  font-variation-settings: "opsz" 96;
+  line-height: 0.82;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--bone);
+}
+.js .hero__name { opacity: 0; }
+.hero__name .ch {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.hero__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+  margin: 1.4rem 0 0;
+  font-size: var(--t-sm);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--bone-dim);
+  letter-spacing: 0.02em;
+}
+
+.hero__cue {
+  position: absolute;
+  left: var(--gut);
+  bottom: clamp(1.5rem, 5vh, 3rem);
+  width: 1px; height: clamp(3rem, 8vh, 5rem);
+  background: linear-gradient(var(--bone-dim), transparent);
+}
+.hero__cue span {
+  position: absolute; inset-inline: -1px; top: 0;
+  height: 30%;
+  background: var(--ember);
+  animation: cue 2.6s cubic-bezier(.65,0,.35,1) infinite;
+}
+@keyframes cue {
+  0%, 12%  { transform: translateY(0);    opacity: 0; }
+  30%      { opacity: 1; }
+  100%     { transform: translateY(240%); opacity: 0; }
+}
+
+/* ---------- capítulos em prosa ------------------------------ */
+
+.chapter {
+  position: relative;
+  padding-block: var(--band);
+}
+
+.chapter--origin { padding-top: calc(var(--band) * 1.3); }
+
+/* a vila que ele não lembra: as palavras se materializam */
+[data-dissolve] .wd {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
+/* ---------- 3 · a família (pinada) -------------------------- */
+
+.pinned { position: relative; }
+
+.pinned__stage {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  position: relative;
+}
+.pinned__art {
+  grid-area: 1 / 2;
+  margin: 0;
+  justify-self: center;
+  width: min(30rem, 34vw);
+  opacity: 0.5;
+  filter: saturate(0.55) contrast(1.05);
+  -webkit-mask-image: radial-gradient(68% 64% at 50% 44%, #000 42%, transparent 100%);
+          mask-image: radial-gradient(68% 64% at 50% 44%, #000 42%, transparent 100%);
+}
+.pinned__stage .measure {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-areas: "beat";
+  max-width: 38rem;
+  justify-self: end;
+  padding-right: clamp(1rem, 3vw, 3rem);
+}
+.beat {
+  grid-area: beat;
+  margin: 0;
+  font-size: var(--t-lead);
+  line-height: 1.36;
+  font-weight: 300;
+  letter-spacing: -0.012em;
+}
+.js .beat { opacity: 0; }
+.js .beat.is-on { opacity: 1; }
+.beat--close {
+  font-family: var(--display);
+  font-style: italic;
+  font-variation-settings: "opsz" 40;
+  color: var(--gold);
+}
+
+/* ---------- 4 · o irmão ------------------------------------- */
+
+.chapter--brother .diverge { margin-block: clamp(4rem, 11vh, 8rem); }
+
+.diverge {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 0;
+  align-items: start;
+  padding-inline: var(--gut);
+  overflow: hidden;
+}
+.diverge__col { max-width: 26rem; will-change: transform; }
+.diverge__col--left  { justify-self: end;   text-align: right; padding-right: clamp(1.5rem, 4vw, 3.5rem); }
+.diverge__col--right { justify-self: start; padding-left:  clamp(1.5rem, 4vw, 3.5rem); }
+
+.diverge__who {
+  font-family: var(--display);
+  font-size: var(--t-mid);
+  font-variation-settings: "opsz" 72;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5em;
+}
+.diverge__col--left  .diverge__who { color: var(--ice); }
+.diverge__col--right .diverge__who { color: var(--ember); }
+.diverge__what { margin: 0; font-size: var(--t-sm); color: var(--bone-dim); }
+
+/* o fio entre os dois é a lâmina */
+.diverge__blade {
+  align-self: stretch;
+  min-height: 100%;
+  background: linear-gradient(transparent, var(--bone-dim) 18%, var(--bone) 50%, var(--bone-dim) 82%, transparent);
+  transform-origin: 50% 0;
+  will-change: transform;
+}
+
+/* ---------- 5 · a ideia ------------------------------------- */
+
+.creed {
+  position: relative;
+  padding-block: var(--band);
+}
+.creed__panel {
+  background: var(--cadmium);
+  color: var(--ink);
+  padding: clamp(4rem, 13vh, 9rem) var(--gut);
+}
+.js .creed__panel {
+  /* revelado por clip-path via GSAP */
+  clip-path: inset(0 100% 0 0);
+}
+.creed__quote { margin: 0; }
+.creed__quote p {
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--t-big);
+  font-variation-settings: "opsz" 96;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  max-width: 13ch;
+}
+/* o itálico do Bodoni transborda a caixa: folga para a máscara não cortar */
+.creed__quote .ln {
+  display: block;
+  overflow: hidden;
+  padding: 0.06em 0.14em 0.1em 0;
+  margin: -0.06em -0.14em -0.1em 0;
+}
+.creed__quote .ln > * { display: block; will-change: transform; }
+
+/* ---------- 6 · valebris ------------------------------------ */
+
+.valebris {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: center;
+  padding: var(--band) var(--gut);
+}
+.valebris__art {
+  position: relative;
+  margin: 0;
+  justify-self: center;
+  max-width: 30rem;
+  will-change: transform;
+}
+.valebris__art img {
+  border-radius: 2px;
+  filter: saturate(0.92) contrast(1.05);
+}
+.valebris__runes {
+  position: absolute;
+  inset: 6% 18%;
+  width: 64%; height: 88%;
+  overflow: visible;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 6px rgb(192 138 46 / 0.8));
+}
+.js .valebris__runes path,
+.js .valebris__runes circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.valebris__text { max-width: 34rem; }
+.valebris__text > p + p { margin-top: 1.15em; }
+
+/* ---------- 7 · a morte ------------------------------------- */
+
+.death {
+  position: relative;
+  background: linear-gradient(var(--ink), var(--ink-deep) 45%, #000);
+  padding-block: var(--band);
+}
+.death__stage { padding-inline: var(--gut); }
+
+.death__run {
+  max-width: 34rem;
+  margin: 0 0 1.15em;
+  color: var(--bone-dim);
+}
+.death__run--b { margin-left: clamp(0rem, 6vw, 6rem); }
+.death__run--c { margin-left: clamp(0rem, 12vw, 12rem); color: var(--bone); }
+
+.death__blow {
+  font-family: var(--display);
+  font-size: var(--t-mid);
+  font-variation-settings: "opsz" 72;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: clamp(3rem, 9vh, 6rem) 0 calc(var(--band) * 1.1) clamp(0rem, 18vw, 18rem);
+  max-width: 14ch;
+  color: var(--ember);
+}
+
+.death__dark { min-height: 62svh; display: grid; align-content: center; }
+.death__line {
+  font-family: var(--display);
+  font-size: var(--t-big);
+  font-variation-settings: "opsz" 96;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  margin: 0;
+  max-width: 12ch;
+}
+.death__sub {
+  max-width: 32rem;
+  margin: 2rem 0 0;
+  color: var(--bone-dim);
+}
+
+/* a marca sangra até a borda direita: é uma chapa, não um cartão */
+.scar {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+  margin-top: var(--band);
+  margin-right: calc(var(--gut) * -1);
+}
+.scar__crop {
+  margin: 0;
+  overflow: hidden;
+  filter: saturate(0.72) contrast(1.06);
+}
+.scar__crop img { width: 100%; will-change: transform; }
+.scar__cap {
+  max-width: 34rem;
+  margin: 0;
+  font-size: var(--t-sm);
+  color: var(--bone-dim);
+}
+
+/* ---------- 8 · hoje ---------------------------------------- */
+
+.today {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+  padding: var(--band) var(--gut);
+  background: linear-gradient(#000, var(--ink) 55%);
+}
+.today__art { margin: 0; justify-self: center; max-width: 24rem; }
+.today__art img {
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+  box-shadow: 0 0 clamp(2rem, 7vw, 6rem) rgb(232 86 28 / 0.22);
+}
+.today__text { max-width: 34rem; }
+.today__text > p + p { margin-top: 1.15em; }
+
+/* ---------- 9 · fecho --------------------------------------- */
+
+.finale {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  gap: clamp(1.5rem, 5vh, 3rem);
+  padding: var(--band) var(--gut) clamp(3rem, 8vh, 6rem);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* a chama: três manchas desencontradas, borradas, em screen */
+.finale__fire {
+  position: absolute;
+  z-index: -1;
+  inset: auto -25% -4% -25%;
+  height: 68%;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(44% 64% at 28% 96%, rgb(232 86 28 / 0.90), transparent 68%),
+    radial-gradient(36% 54% at 54% 99%, rgb(255 195 0 / 0.60),  transparent 64%),
+    radial-gradient(48% 68% at 78% 97%, rgb(192 138 46 / 0.65), transparent 70%);
+  filter: blur(38px);
+  animation: breathe 7s ease-in-out infinite alternate;
+}
+@keyframes breathe {
+  from { transform: scale(1)      translateY(0); }
+  to   { transform: scale(1.14) translateY(-3%); }
+}
+
+.finale__creed {
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--t-big);
+  font-variation-settings: "opsz" 96;
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  filter: url(#heat);
+}
+.finale__half { display: block; will-change: transform, opacity; }
+.finale__half[data-half="r"] {
+  color: var(--ember);
+  padding-left: clamp(0rem, 14vw, 12rem);
+}
+
+.finale__after {
+  margin: 0;
+  max-width: 30rem;
+  font-size: var(--t-lead);
+  font-weight: 300;
+  line-height: 1.34;
+  color: var(--bone-dim);
+}
+
+.colophon {
+  margin-top: clamp(4rem, 12vh, 8rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid color-mix(in srgb, var(--bone) 16%, transparent);
+  font-size: var(--t-xs);
+  font-style: italic;
+  color: color-mix(in srgb, var(--bone) 42%, var(--ink));
+}
+.colophon p { margin: 0; }
+
+/* ---------- responsivo -------------------------------------- */
+
+@media (max-width: 900px) {
+  .pinned__stage { grid-template-columns: 1fr; }
+  .pinned__art { display: none; }
+  .pinned__stage .measure { grid-area: auto; justify-self: start; padding-right: var(--gut); }
+  .measure--mid, .measure--right { margin-left: 0; margin-right: 0; }
+
+  .valebris,
+  .today { grid-template-columns: 1fr; }
+  .today__art { max-width: 17rem; }
+  .valebris__art { max-width: 22rem; }
+
+  .diverge { grid-template-columns: 1fr; gap: 2.5rem; }
+  .diverge__col--left,
+  .diverge__col--right {
+    justify-self: start; text-align: left;
+    padding-inline: 0; max-width: none;
+  }
+  .diverge__blade {
+    min-height: 1px; height: 1px;
+    background: linear-gradient(90deg, var(--bone), transparent);
+    transform-origin: 0 50%;
+  }
+
+  .hero__portrait { width: 82vw; right: -12%; opacity: 0.5; }
+  .death__blow,
+  .death__run--b,
+  .death__run--c { margin-left: 0; }
+  .finale__half[data-half="r"] { padding-left: 0; }
+}
+
+/* ---------- movimento reduzido ------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .js .hero__name { opacity: 1; }
+  .js .beat { opacity: 1; }
+  .js .creed__panel { clip-path: none; }
+  .js .valebris__runes path,
+  .js .valebris__runes circle { stroke-dashoffset: 0; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .embers, .veil { display: none; }
+  .creed__panel { clip-path: none; }
+  .beat { opacity: 1; position: static; }
+  .pinned__stage .measure { grid-template-areas: none; }
+  .pinned__stage .measure .beat + .beat { margin-top: 1.15em; }
+  .finale__creed { filter: none; }
+  .valebris__runes path,
+  .valebris__runes circle { stroke-dashoffset: 0; }
+}

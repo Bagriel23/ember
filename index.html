@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ember — Bladesinger de Valebris</title>
+<meta name="description" content="A história de Ember: criado por quem destruiu sua vila, irmão de um paladino, bladesinger da Guilda Custodes. Magia em uma mão, lâmina na outra.">
+<meta property="og:title" content="Ember — Bladesinger de Valebris">
+<meta property="og:description" content="Magia em uma mão. Lâmina na outra.">
+<meta property="og:image" content="img/ember-melancholic.webp">
+<meta property="og:type" content="profile">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="%230E1020"/><path d="M16 3 18.6 13.4 29 16 18.6 18.6 16 29 13.4 18.6 3 16 13.4 13.4Z" fill="%23E8561C"/></svg>'>
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.className+=" js";</script>
+</head>
+<body>
+
+<!-- filtro de calor: distorce a frase final -->
+<svg class="defs" aria-hidden="true">
+  <filter id="heat" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.014 0.05" numOctaves="2" seed="7" result="n">
+      <animate attributeName="baseFrequency" dur="11s" repeatCount="indefinite"
+               values="0.014 0.05; 0.016 0.082; 0.014 0.05"/>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<!-- camadas fixas: ficam FORA do smooth-wrapper para não herdar o transform -->
+<div class="embers" id="embers" aria-hidden="true"></div>
+<div class="veil" id="veil" aria-hidden="true"></div>
+
+<div id="smooth-wrapper">
+<div id="smooth-content">
+<main>
+
+  <!-- 1 — HERO ------------------------------------------------------- -->
+  <section class="hero" id="hero">
+    <div class="hero__glow" aria-hidden="true"></div>
+    <figure class="hero__portrait">
+      <img src="img/ember-melancholic.webp" width="1120" height="1400"
+           alt="Ember de perfil, cabelo ruivo revolto, manto azul-escuro com gola de pele branca." fetchpriority="high">
+    </figure>
+    <div class="hero__type">
+      <h1 class="hero__name" data-split>Ember</h1>
+      <p class="hero__meta">
+        <span>Bladesinger</span>
+        <span>Guilda Custodes, Valebris</span>
+      </p>
+    </div>
+    <div class="hero__cue" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- 2 — A VILA ------------------------------------------------------ -->
+  <section class="chapter chapter--origin" id="origem">
+    <div class="measure">
+      <p class="lead" data-dissolve>Ember não sabe onde nasceu.</p>
+      <p>Ele sabe que havia uma vila, talvez uma pequena cidade, e que em algum momento ela foi
+        invadida. Que seus pais morreram durante essa invasão de <b class="burn">Krovagard</b>.
+        O resto chegou até ele por histórias contadas muito depois, porque Ember era novo demais
+        para guardar qualquer lembrança daquele lugar.</p>
+      <p>Era praticamente um recém-nascido quando tudo aconteceu.</p>
+    </div>
+  </section>
+
+  <!-- 3 — A FAMÍLIA (pinada) ------------------------------------------ -->
+  <section class="pinned" id="familia">
+    <div class="pinned__stage">
+      <figure class="pinned__art" aria-hidden="true">
+        <img src="img/ember-painterly.webp" width="1186" height="1300" loading="lazy" alt="">
+      </figure>
+      <div class="measure">
+        <p class="beat is-on">As pessoas que o encontraram entre os sobreviventes foram justamente
+          algumas das responsáveis pelo ataque. E foram elas que o criaram.</p>
+        <p class="beat">Por muito tempo, essa foi uma verdade difícil de encaixar na cabeça. Houve
+          uma época em que ele ficou genuinamente revoltado, tentando decidir se deveria odiá-los
+          por algo de que sequer conseguia se lembrar.</p>
+        <p class="beat">Nunca conheceu a mãe. Nunca ouviu a voz do pai. Não lembra o rosto de
+          nenhum dos dois, nem saberia encontrar sua terra natal em um mapa.</p>
+        <p class="beat">A tragédia existe, e ele não finge o contrário. Mas deixou de permitir que
+          ela definisse sua relação com quem realmente esteve presente.</p>
+        <p class="beat beat--close">Família virou uma questão muito mais complicada — e, ao mesmo
+          tempo, muito mais simples — do que sangue.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 — O IRMÃO ------------------------------------------------------ -->
+  <section class="chapter chapter--brother" id="irmao">
+    <div class="measure measure--mid">
+      <p class="lead">Entre todas essas pessoas, ninguém foi mais importante durante a infância
+        do que seu irmão mais velho.</p>
+      <p>Três anos de diferença. O irmão também era só uma criança quando a invasão aconteceu, e
+        não carregava nenhuma responsabilidade pelo que os adultos fizeram. Para Ember, isso sempre
+        importou.</p>
+      <p>Os dois cresceram juntos, mas não cresceram iguais.</p>
+    </div>
+
+    <div class="diverge" id="diverge">
+      <div class="diverge__col diverge__col--left">
+        <p class="diverge__who">O irmão</p>
+        <p class="diverge__what">Sabia. Onde Ember precisava insistir, observar e compreender, ele
+          simplesmente sabia o que fazer. Acreditava que o talento era dádiva divina e partiu para
+          <b>Salmerídia</b> tornar-se paladino.</p>
+      </div>
+      <div class="diverge__blade" aria-hidden="true"></div>
+      <div class="diverge__col diverge__col--right">
+        <p class="diverge__who">Ember</p>
+        <p class="diverge__what">Pensava. Queria entender como as coisas funcionavam, por que
+          funcionavam e, principalmente, se poderiam funcionar de outra maneira. Não tinha a mesma
+          fé. Tinha livros, teorias e uma curiosidade difícil de desligar.</p>
+      </div>
+    </div>
+
+    <div class="measure measure--right">
+      <p>Anos antes, ele havia visto um mago lutar. Não foi a magia que prendeu sua atenção —
+        Ember já sabia que magos existiam. Foi a maneira como aquele homem transformava conhecimento
+        em algo prático, imediato e perigoso.</p>
+      <p>Ele começou a se perguntar por que precisaria escolher uma das duas.</p>
+    </div>
+  </section>
+
+  <!-- 5 — A IDEIA (painel amarelo) ------------------------------------- -->
+  <section class="creed" id="ideia">
+    <div class="creed__panel" id="creedPanel">
+      <blockquote class="creed__quote">
+        <p data-split-lines>Se minha espada não é o suficiente e magia sozinha não me interessa,
+          aprenderei ambas.</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 6 — VALEBRIS ------------------------------------------------------ -->
+  <section class="valebris" id="valebris">
+    <figure class="valebris__art">
+      <img src="img/ember-cloak.webp" width="933" height="1400" loading="lazy"
+           alt="Ember de costas, o manto rúnico caindo dos ombros, a estrela dourada de oito pontas no cinto.">
+      <svg class="valebris__runes" viewBox="0 0 200 400" aria-hidden="true">
+        <path d="M100 20 V380" pathLength="1"/>
+        <path d="M60 90 L140 90 M60 310 L140 310" pathLength="1"/>
+        <circle cx="100" cy="200" r="52" pathLength="1"/>
+        <path d="M100 148 L118 200 L100 252 L82 200 Z" pathLength="1"/>
+      </svg>
+    </figure>
+    <div class="valebris__text">
+      <p class="lead">Enquanto o irmão seguiu para Salmerídia, Ember tomou o caminho de
+        <b class="gilt">Valebris</b>.</p>
+      <p>Entrou para a <b class="gilt">Guilda Custodes</b> muito mais interessado no acesso a
+        conhecimento e a praticantes de magia do que em qualquer grande destino heroico. Queria
+        descobrir se aquilo que imaginava era possível.</p>
+      <p>Encontrou uma tradição construída exatamente em torno da pergunta que o perseguia havia
+        anos: como transformar a magia em extensão da espada, e a espada em extensão da magia.</p>
+      <p>Foi assim que começou seu caminho como <b class="gilt">Bladesinger</b>.</p>
+      <p>Precisou reaprender boa parte do que achava que sabia sobre combate. Movimento passou a
+        valer tanto quanto força; precisão, tanto quanto velocidade. Uma lâmina podia defender,
+        atacar ou conduzir um encantamento. Um feitiço podia vir antes do golpe, durante o golpe,
+        ou justamente para tornar aquele golpe desnecessário.</p>
+      <p class="lead">Pela primeira vez, havia encontrado alguma coisa que realmente parecia
+        pertencer a ele.</p>
+      <p>E Valebris, que seria apenas o lugar onde estudaria, virou sua casa.</p>
+    </div>
+  </section>
+
+  <!-- 7 — A MORTE -------------------------------------------------------- -->
+  <section class="death" id="morte">
+    <div class="death__stage">
+      <p class="death__run">Expedições. Pesquisas da guilda. Conflitos que ele jamais imaginaria
+        enfrentar quando saiu de casa. Até uma guerra contra os ratos que ameaçaram Valebris.</p>
+      <p class="death__run death__run--b">Algumas aventuras foram boas.</p>
+      <p class="death__run death__run--c">Outras deixaram marcas.</p>
+      <p class="death__blow">E uma delas o matou.</p>
+
+      <div class="death__dark">
+        <p class="death__line">Ember já morreu uma vez.</p>
+        <p class="death__sub">Não como metáfora, nem como maneira exagerada de contar uma derrota.
+          Seu corpo caiu. E, por circunstâncias que poucas pessoas têm a oportunidade de
+          experimentar, ele voltou.</p>
+      </div>
+
+      <div class="scar" id="scar">
+        <figure class="scar__crop">
+          <img src="img/ember-scar.webp" width="1320" height="580" loading="lazy"
+               alt="Detalhe da testa de Ember: uma marca esbranquiçada semelhante a uma queimadura, meio escondida sob a franja ruiva.">
+        </figure>
+        <p class="scar__cap">Hoje ele carrega parte dessa história no corpo — a marca esbranquiçada
+          que ocupa boa parte da testa, quase sempre escondida sob a franja. E talvez carregue ainda
+          mais coisas que não são tão fáceis de enxergar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 — HOJE ----------------------------------------------------------- -->
+  <section class="today" id="hoje">
+    <figure class="today__art">
+      <img src="img/ember-smile.webp" width="768" height="768" loading="lazy"
+           alt="Ember sorrindo aberto, um olho fechado, o manto de gola branca sobre o ombro.">
+    </figure>
+    <div class="today__text">
+      <p class="lead">Ele continua sendo Ember depois disso. Ao menos é o que costuma dizer.</p>
+      <p>Sua história nunca foi sobre ser o último sobrevivente de uma vila que ele sequer consegue
+        lembrar. Também não é sobre superar o irmão. Nem sobre descobrir quem eram seus verdadeiros
+        pais.</p>
+      <p>Ember já passou tempo demais tentando descobrir quem deveria ser por causa de outras
+        pessoas. A família que o criou, os pais que perdeu, o irmão que admirava, os deuses nos
+        quais nunca acreditou da mesma maneira, o mago que viu lutar, a guilda que lhe abriu as
+        portas, as pessoas que conheceu em Valebris, e até a morte que, por algum motivo, não
+        conseguiu mantê-lo.</p>
+      <p>Tudo isso faz parte dele. Mas nenhuma dessas coisas decide quem ele é.</p>
+      <p>Ele encontrou a resposta muito tempo atrás, quando teve a ideia aparentemente simples de
+        pegar tudo aquilo que sabia fazer e transformar em algo que fosse somente seu.</p>
+    </div>
+  </section>
+
+  <!-- 9 — FECHO ----------------------------------------------------------- -->
+  <section class="finale" id="fecho">
+    <div class="finale__fire" aria-hidden="true"></div>
+    <p class="finale__creed">
+      <span class="finale__half" data-half="l">Magia em uma mão.</span>
+      <span class="finale__half" data-half="r">Lâmina na outra.</span>
+    </p>
+    <p class="finale__after">E, depois de tudo que aconteceu, ele ainda está aqui.</p>
+    <footer class="colophon">
+      <p>Ember — bladesinger, Guilda Custodes, Valebris.</p>
+    </footer>
+  </section>
+
+</main>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollSmoother.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/SplitText.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
